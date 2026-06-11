@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Achievers Study Hall — Seat Booking</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --red: #E53935;
+    --green: #2E7D32;
+    --dark: #1A1A2E;
+    --bg: #F3F4F8;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--dark);
+    color: white;
+    padding: 18px 20px 14px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  header h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  header p { font-size: 0.75rem; color: #aaa; margin-top: 2px; }
+
+  .container { max-width: 600px; margin: 0 auto; padding: 16px; }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .stat-card .num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .stat-card .label {
+    font-size: 0.63rem;
+    color: var(--muted);
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-card.available .num { color: var(--green); }
+  .stat-card.occupied .num { color: var(--red); }
+  .stat-card.total .num { color: var(--dark); }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    background: white;
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .dot.green { background: var(--green); }
+  .dot.red { background: var(--red); }
+  .dot.dark { background: var(--dark); }
+
+  /* Seat section */
+  .seat-section {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .seat-section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .badge {
+    font-size: 0.62rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .badge.reserved { background: #FFF3E0; color: #E65100; }
+  .badge.unreserved { background: #E3F2FD; color: #1565C0; }
+
+  .seat-price { font-size: 0.72rem; color: var(--muted); margin-bottom: 12px; }
+
+  .seats-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .seat {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    border: 2px solid transparent;
+    user-select: none;
+  }
+
+  .seat.available {
+    background: #E8F5E9;
+    color: var(--green);
+    border-color: #A5D6A7;
+  }
+
+  .seat.available:hover {
+    transform: scale(1.12);
+    box-shadow: 0 3px 10px rgba(46,125,50,0.3);
+    border-color: var(--green);
+  }
+
+  .seat.occupied {
+    background: #FFEBEE;
+    color: var(--red);
+    border-color: #FFCDD2;
+    cursor: not-allowed;
+  }
+
+  .seat.selected {
+    background: var(--dark);
+    color: white;
+    border-color: var(--dark);
+    transform: scale(1.12);
+    box-shadow: 0 3px 10px rgba(26,26,46,0.4);
+  }
+
+  /* Unreserved card */
+  .unreserved-card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .unreserved-card .title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .shift-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .shift-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .shift-card:hover { border-color: var(--dark); }
+
+  .shift-card.selected {
+    border-color: var(--dark);
+    background: var(--dark);
+    color: white;
+  }
+
+  .shift-card .shift-name {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+
+  .shift-card .shift-time {
+    font-size: 0.6rem;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+
+  .shift-card .shift-price {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .shift-card.selected .shift-price { color: #81C784; }
+
+  .apply-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-family: 'Baloo 2', cursive;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .apply-btn:hover { background: #2d2d4e; }
+
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    grid-column: 1/-1;
+  }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid #eee;
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 10px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Booking form */
+  .booking-form {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    margin-top: 4px;
+    display: none;
+  }
+
+  .booking-form.visible { display: block; }
+
+  .form-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .selected-info {
+    background: var(--dark);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 0.82rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .selected-info strong {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+  }
+
+  .form-group { margin-bottom: 14px; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    background: white;
+    color: var(--text);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus { border-color: var(--dark); }
+
+  .fee-summary {
+    background: #F8F9FA;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 14px 0;
+    border: 1.5px solid var(--border);
+  }
+
+  .fee-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    padding: 3px 0;
+    color: var(--muted);
+  }
+
+  .fee-row.total {
+    font-weight: 700;
+    color: var(--text);
+    font-size: 1rem;
+    border-top: 1.5px solid var(--border);
+    margin-top: 6px;
+    padding-top: 8px;
+    font-family: 'Baloo 2', cursive;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Baloo 2', cursive;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .submit-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+
+  .whatsapp-note {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* Rules */
+  .rules {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .rules h3 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--red);
+  }
+
+  .rules ul { list-style: none; padding: 0; }
+
+  .rules ul li {
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding: 4px 0 4px 16px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .rules ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  /* Success */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    margin-top: 16px;
+  }
+
+  .success-screen.visible { display: block; }
+  .success-icon { font-size: 3rem; margin-bottom: 12px; }
+
+  .success-screen h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: var(--green);
+  }
+
+  .success-screen p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  .another-btn {
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .error-msg {
+    background: #FFEBEE;
+    color: var(--red);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .error-msg.visible { display: block; }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 Achievers Study Hall</h1>
+  <p>53/1B, Vinayak Nagar, New Sangavi, Pune • 6:30 AM – 10:00 PM</p>
+</header>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card available">
+      <div class="num" id="availableCount">—</div>
+      <div class="label">Reserved Free</div>
+    </div>
+    <div class="stat-card occupied">
+      <div class="num" id="occupiedCount">—</div>
+      <div class="label">Reserved Taken</div>
+    </div>
+    <div class="stat-card total">
+      <div class="num">81</div>
+      <div class="label">Total Seats</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="dot green"></div> Available</div>
+    <div class="legend-item"><div class="dot red"></div> Occupied</div>
+    <div class="legend-item"><div class="dot dark"></div> Your Selection</div>
+  </div>
+
+  <!-- Reserved Seats -->
+  <div class="seat-section">
+    <div class="seat-section-title">
+      Reserved Seats (1–50)
+      <span class="badge reserved">Your Private Seat</span>
+    </div>
+    <div class="seat-price">₹1200/month &nbsp;•&nbsp; ₹3300/3 months &nbsp;•&nbsp; ₹6000/6 months &nbsp;•&nbsp; +₹100 laptop</div>
+    <div class="seats-grid" id="reservedGrid">
+      <div class="loading"><div class="spinner"></div>Loading seats...</div>
+    </div>
+  </div>
+
+  <!-- Unreserved Section -->
+  <div class="unreserved-card">
+    <div class="title">
+      Unreserved Seats (51–81)
+      <span class="badge unreserved">First Come First Serve</span>
+    </div>
+    <div class="seat-price" style="margin-top:4px">Sit anywhere in unreserved area during your shift</div>
+
+    <div class="shift-cards">
+      <div class="shift-card" id="shift-morning" onclick="selectShift('morning')">
+        <div class="shift-name">🌅 Morning</div>
+        <div class="shift-time">6:30 AM – 2:00 PM</div>
+        <div class="shift-price">₹850/mo</div>
+      </div>
+      <div class="shift-card" id="shift-evening" onclick="selectShift('evening')">
+        <div class="shift-name">🌆 Evening</div>
+        <div class="shift-time">2:00 PM – 10:00 PM</div>
+        <div class="shift-price">₹850/mo</div>
+      </div>
+      <div class="shift-card" id="shift-fullday" onclick="selectShift('fullday')">
+        <div class="shift-name">☀️ Full Day</div>
+        <div class="shift-time">6:30 AM – 10:00 PM</div>
+        <div class="shift-price">₹1000/mo</div>
+      </div>
+    </div>
+
+    <button class="apply-btn" onclick="applyUnreserved()">Apply for Unreserved Seat →</button>
+  </div>
+
+  <!-- Booking Form (shared for both) -->
+  <div class="booking-form" id="bookingForm">
+    <div class="form-title">📋 Booking Request</div>
+    <p style="font-size:0.78rem;color:var(--muted)">Fill details — confirmation & payment at hall only.</p>
+
+    <div class="selected-info">
+      <div>
+        <div style="font-size:0.68rem;opacity:0.7" id="bookingTypeLabel">Seat Type</div>
+        <strong id="selectedDisplay">—</strong>
+      </div>
+      <button onclick="clearBooking()" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:0.75rem;cursor:pointer;">Change</button>
+    </div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="studentName" placeholder="Enter your full name" />
+    </div>
+
+    <div class="form-group">
+      <label>Mobile Number</label>
+      <input type="tel" id="studentMobile" placeholder="10-digit mobile number" maxlength="10" />
+    </div>
+
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="date" id="startDate" />
+    </div>
+
+    <div class="form-group" id="durationGroup">
+      <label>Duration</label>
+      <select id="duration" onchange="updateFee()">
+        <option value="1">1 Month</option>
+        <option value="3" id="opt3">3 Months (Save ₹300)</option>
+        <option value="6" id="opt6">6 Months (Save ₹1200)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Laptop Usage (+₹100/month)</label>
+      <select id="laptop" onchange="updateFee()">
+        <option value="no">No</option>
+        <option value="yes">Yes (+₹100/month)</option>
+      </select>
+    </div>
+
+    <div class="fee-summary">
+      <div class="fee-row"><span>Seat / Shift Fee</span><span id="seatFeeDisplay">₹0</span></div>
+      <div class="fee-row"><span>Laptop Fee</span><span id="laptopFeeDisplay">₹0</span></div>
+      <div class="fee-row total"><span>Total to Pay at Hall</span><span id="totalFeeDisplay">₹0</span></div>
+    </div>
+
+    <button class="submit-btn" onclick="submitBooking()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Send Booking Request
+    </button>
+
+    <div class="error-msg" id="errorMsg"></div>
+    <p class="whatsapp-note">Opens WhatsApp to send your request to admin. Confirmation & payment at hall only.</p>
+  </div>
+
+  <!-- Success Screen -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✅</div>
+    <h2>Request Sent!</h2>
+    <p>Your booking request has been sent via WhatsApp.<br>Please visit the hall to confirm your seat and complete payment.</p>
+    <p style="margin-top:10px;font-weight:600;color:var(--dark)">📍 53/1B, Vinayak Nagar, New Sangavi, Pune</p>
+    <p style="margin-top:6px;font-weight:600;color:var(--dark)">📞 +91 70833 22440</p>
+    <button class="another-btn" onclick="resetAll()">← Back to Seats</button>
+  </div>
+
+  <!-- Rules -->
+  <div class="rules">
+    <h3>📌 Important Rules</h3>
+    <ul>
+      <li>Reserved seat is your private seat — keep your books safely.</li>
+      <li>Unreserved seats are on First Come, First Serve basis within your shift.</li>
+      <li>Do not reserve unreserved seats with personal belongings.</li>
+      <li>Seat vacant for more than 30 minutes may be given to another student.</li>
+      <li>Renew your seat at least 5 days before expiry.</li>
+      <li>Late renewal: ₹100 extra charge per 5 days after expiry.</li>
+      <li>Shelf storage facility only for reserved seat holders.</li>
+      <li>Carry your belongings when leaving the hall.</li>
+    </ul>
+  </div>
+
+  <footer>Achievers Study Hall • New Sangavi, Pune • +91 70833 22440</footer>
+</div>
+
+<script>
+  const SHEET_ID = '1-mk38L_MZgVc9UbnjljnEF80NiL2TIhapn1Mu6NzUXk';
+  const ADMIN_WA = '917083322440';
+  const RESERVED_PRICES = { 1: 1200, 3: 3300, 6: 6000 };
+  const SHIFT_PRICES = { morning: 850, evening: 850, fullday: 1000 };
+  const SHIFT_LABELS = {
+    morning: '🌅 Morning (6:30 AM – 2:00 PM)',
+    evening: '🌆 Evening (2:00 PM – 10:00 PM)',
+    fullday: '☀️ Full Day (6:30 AM – 10:00 PM)'
+  };
+
+  let occupiedSeats = new Set();
+  let selectedSeat = null;
+  let selectedShift = null;
+  let bookingType = null; // 'reserved' or 'unreserved'
+
+  window.onload = () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startDate').value = today;
+    document.getElementById('startDate').min = today;
+    fetchSeats();
+  };
+
+  async function fetchSeats() {
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=reserved%20seats`;
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.substring(47).slice(0, -2));
+      const rows = json.table.rows;
+      const today = new Date(); today.setHours(0,0,0,0);
+
+      occupiedSeats = new Set();
+      rows.forEach(row => {
+        if (!row.c || !row.c[0]) return;
+        const seatNum = parseInt(row.c[0]?.v);
+        if (!seatNum || isNaN(seatNum)) return;
+
+        let endDate = null;
+        if (row.c[2]?.v) {
+          const dv = row.c[2].v;
+          if (typeof dv === 'string' && dv.startsWith('Date(')) {
+            const p = dv.replace('Date(','').replace(')','').split(',');
+            endDate = new Date(parseInt(p[0]), parseInt(p[1]), parseInt(p[2]));
+          } else if (row.c[2].f) {
+            endDate = new Date(row.c[2].f);
+          }
+        }
+        if (endDate && endDate < today) return;
+        if (seatNum >= 1 && seatNum <= 50) occupiedSeats.add(seatNum);
+      });
+      renderSeats();
+    } catch(e) {
+      renderSeats();
+    }
+  }
+
+  function renderSeats() {
+    const grid = document.getElementById('reservedGrid');
+    grid.innerHTML = '';
+    for (let i = 1; i <= 50; i++) {
+      const btn = document.createElement('div');
+      const isOccupied = occupiedSeats.has(i);
+      btn.className = 'seat ' + (isOccupied ? 'occupied' : 'available');
+      btn.textContent = i;
+      btn.dataset.seat = i;
+      if (!isOccupied) btn.onclick = () => selectReservedSeat(i);
+      grid.appendChild(btn);
+    }
+    document.getElementById('availableCount').textContent = 50 - occupiedSeats.size;
+    document.getElementById('occupiedCount').textContent = occupiedSeats.size;
+  }
+
+  function selectReservedSeat(num) {
+    document.querySelectorAll('.seat.selected').forEach(s => {
+      s.classList.remove('selected'); s.classList.add('available');
+    });
+    selectedSeat = num;
+    selectedShift = null;
+    bookingType = 'reserved';
+    document.querySelector(`[data-seat="${num}"]`).classList.replace('available','selected');
+
+    document.getElementById('bookingTypeLabel').textContent = 'Reserved Seat';
+    document.getElementById('selectedDisplay').textContent = `Seat No. ${num}`;
+    document.getElementById('opt3').disabled = false; document.getElementById('opt3').style.display = '';
+    document.getElementById('opt6').disabled = false; document.getElementById('opt6').style.display = '';
+    document.getElementById('duration').value = '1';
+
+    showForm();
+    updateFee();
+  }
+
+  function selectShift(shift) {
+    selectedShift = shift;
+    document.querySelectorAll('.shift-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById(`shift-${shift}`).classList.add('selected');
+  }
+
+  function applyUnreserved() {
+    if (!selectedShift) { alert('Please select a shift first!'); return; }
+    selectedSeat = null;
+    bookingType = 'unreserved';
+    document.querySelectorAll('.seat.selected').forEach(s => {
+      s.classList.remove('selected'); s.classList.add('available');
+    });
+
+    document.getElementById('bookingTypeLabel').textContent = 'Unreserved Seat';
+    document.getElementById('selectedDisplay').textContent = SHIFT_LABELS[selectedShift];
+    document.getElementById('opt3').disabled = true; document.getElementById('opt3').style.display = 'none';
+    document.getElementById('opt6').disabled = true; document.getElementById('opt6').style.display = 'none';
+    document.getElementById('duration').value = '1';
+
+    showForm();
+    updateFee();
+  }
+
+  function showForm() {
+    const form = document.getElementById('bookingForm');
+    form.classList.add('visible');
+    setTimeout(() => form.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  }
+
+  function clearBooking() {
+    document.querySelectorAll('.seat.selected').forEach(s => {
+      s.classList.remove('selected'); s.classList.add('available');
+    });
+    selectedSeat = null; bookingType = null;
+    document.getElementById('bookingForm').classList.remove('visible');
+  }
+
+  function updateFee() {
+    if (!bookingType) return;
+    const months = parseInt(document.getElementById('duration').value);
+    const hasLaptop = document.getElementById('laptop').value === 'yes';
+
+    let seatFee = 0;
+    if (bookingType === 'reserved') {
+      seatFee = RESERVED_PRICES[months];
+    } else {
+      seatFee = SHIFT_PRICES[selectedShift] * months;
+    }
+    const laptopFee = hasLaptop ? 100 * months : 0;
+    const total = seatFee + laptopFee;
+
+    document.getElementById('seatFeeDisplay').textContent = `₹${seatFee}`;
+    document.getElementById('laptopFeeDisplay').textContent = `₹${laptopFee}`;
+    document.getElementById('totalFeeDisplay').textContent = `₹${total}`;
+  }
+
+  function submitBooking() {
+    const name = document.getElementById('studentName').value.trim();
+    const mobile = document.getElementById('studentMobile').value.trim();
+    const startDate = document.getElementById('startDate').value;
+    const months = document.getElementById('duration').value;
+    const hasLaptop = document.getElementById('laptop').value === 'yes';
+
+    document.getElementById('errorMsg').classList.remove('visible');
+
+    if (!name) { showError('Please enter your full name.'); return; }
+    if (!/^[0-9]{10}$/.test(mobile)) { showError('Please enter a valid 10-digit mobile number.'); return; }
+    if (!startDate) { showError('Please select a start date.'); return; }
+
+    const formattedDate = new Date(startDate).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    const seatFee = bookingType === 'reserved' ? RESERVED_PRICES[parseInt(months)] : SHIFT_PRICES[selectedShift] * parseInt(months);
+    const laptopFee = hasLaptop ? 100 * parseInt(months) : 0;
+    const total = seatFee + laptopFee;
+
+    let seatInfo = '';
+    if (bookingType === 'reserved') {
+      seatInfo = `🪑 Seat No: ${selectedSeat} (Reserved — Private Seat)\n⏳ Duration: ${months} Month${months > 1 ? 's' : ''}`;
+    } else {
+      seatInfo = `🪑 Seat Type: Unreserved\n⏰ Shift: ${SHIFT_LABELS[selectedShift]}\n⏳ Duration: 1 Month`;
+    }
+
+    const message =
+`🎓 *SEAT BOOKING REQUEST*
+*Achievers Study Hall, New Sangavi*
+================================
+👤 Name: ${name}
+📱 Mobile: ${mobile}
+${seatInfo}
+📅 Start Date: ${formattedDate}
+💻 Laptop: ${hasLaptop ? 'Yes' : 'No'}
+================================
+💰 Seat Fee: ₹${seatFee}
+💻 Laptop Fee: ₹${laptopFee}
+💵 *Total: ₹${total}*
+================================
+_Confirmation & payment at hall._`;
+
+    window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`, '_blank');
+    document.getElementById('bookingForm').classList.remove('visible');
+    document.getElementById('successScreen').classList.add('visible');
+    document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg; el.classList.add('visible');
+  }
+
+  function resetAll() {
+    selectedSeat = null; selectedShift = null; bookingType = null;
+    document.getElementById('studentName').value = '';
+    document.getElementById('studentMobile').value = '';
+    document.getElementById('duration').value = '1';
+    document.getElementById('laptop').value = 'no';
+    document.getElementById('successScreen').classList.remove('visible');
+    document.getElementById('bookingForm').classList.remove('visible');
+    document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
+    document.querySelectorAll('.shift-card').forEach(c => c.classList.remove('selected'));
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startDate').value = today;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
