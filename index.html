@@ -15,7 +15,6 @@
     --text: #1A1A2E;
     --muted: #6B7280;
     --border: #E5E7EB;
-    --white: #ffffff;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,17 +37,11 @@
     box-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
 
-  header h1 {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1.5rem;
-    font-weight: 800;
-  }
-
+  header h1 { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; }
   header p { font-size: 0.75rem; color: #aaa; margin-top: 2px; }
 
   .container { max-width: 600px; margin: 0 auto; padding: 16px; }
 
-  /* Stats */
   .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -83,7 +76,6 @@
   .stat-card.occupied .num { color: var(--red); }
   .stat-card.total .num { color: var(--dark); }
 
-  /* Legend */
   .legend {
     display: flex;
     gap: 14px;
@@ -109,7 +101,6 @@
   .dot.red { background: var(--red); }
   .dot.dark { background: var(--dark); }
 
-  /* Seat section */
   .seat-section {
     background: white;
     border-radius: 14px;
@@ -188,7 +179,26 @@
     box-shadow: 0 3px 10px rgba(26,26,46,0.4);
   }
 
-  /* Unreserved card */
+  .loading {
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    grid-column: 1/-1;
+  }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 3px solid #eee;
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 10px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Unreserved */
   .unreserved-card {
     background: white;
     border-radius: 14px;
@@ -231,25 +241,9 @@
     color: white;
   }
 
-  .shift-card .shift-name {
-    font-family: 'Baloo 2', cursive;
-    font-size: 0.85rem;
-    font-weight: 800;
-    margin-bottom: 2px;
-  }
-
-  .shift-card .shift-time {
-    font-size: 0.6rem;
-    opacity: 0.7;
-    margin-bottom: 4px;
-  }
-
-  .shift-card .shift-price {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--green);
-  }
-
+  .shift-card .shift-name { font-family: 'Baloo 2', cursive; font-size: 0.85rem; font-weight: 800; margin-bottom: 2px; }
+  .shift-card .shift-time { font-size: 0.6rem; opacity: 0.7; margin-bottom: 4px; }
+  .shift-card .shift-price { font-size: 0.78rem; font-weight: 700; color: var(--green); }
   .shift-card.selected .shift-price { color: #81C784; }
 
   .apply-btn {
@@ -264,32 +258,11 @@
     font-family: 'Baloo 2', cursive;
     cursor: pointer;
     transition: background 0.2s;
-    letter-spacing: 0.5px;
   }
 
   .apply-btn:hover { background: #2d2d4e; }
 
-  /* Loading */
-  .loading {
-    text-align: center;
-    padding: 30px;
-    color: var(--muted);
-    font-size: 0.85rem;
-    grid-column: 1/-1;
-  }
-
-  .spinner {
-    width: 28px; height: 28px;
-    border: 3px solid #eee;
-    border-top-color: var(--red);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 10px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Booking form */
+  /* Form */
   .booking-form {
     background: white;
     border-radius: 14px;
@@ -301,12 +274,7 @@
 
   .booking-form.visible { display: block; }
 
-  .form-title {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
+  .form-title { font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
 
   .selected-info {
     background: var(--dark);
@@ -314,16 +282,12 @@
     border-radius: 10px;
     padding: 10px 14px;
     margin: 12px 0;
-    font-size: 0.82rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .selected-info strong {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1rem;
-  }
+  .selected-info strong { font-family: 'Baloo 2', cursive; font-size: 1rem; }
 
   .form-group { margin-bottom: 14px; }
 
@@ -392,7 +356,6 @@
     font-family: 'Baloo 2', cursive;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
-    letter-spacing: 0.5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -400,16 +363,9 @@
   }
 
   .submit-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
-  .submit-btn:active { transform: translateY(0); }
 
-  .whatsapp-note {
-    text-align: center;
-    font-size: 0.7rem;
-    color: var(--muted);
-    margin-top: 10px;
-  }
+  .whatsapp-note { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 10px; }
 
-  /* Rules */
   .rules {
     background: white;
     border-radius: 14px;
@@ -418,14 +374,7 @@
     box-shadow: 0 1px 4px rgba(0,0,0,0.07);
   }
 
-  .rules h3 {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-    color: var(--red);
-  }
-
+  .rules h3 { font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800; margin-bottom: 10px; color: var(--red); }
   .rules ul { list-style: none; padding: 0; }
 
   .rules ul li {
@@ -436,15 +385,8 @@
     line-height: 1.5;
   }
 
-  .rules ul li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--red);
-    font-weight: 700;
-  }
+  .rules ul li::before { content: '•'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
 
-  /* Success */
   .success-screen {
     display: none;
     text-align: center;
@@ -458,14 +400,7 @@
   .success-screen.visible { display: block; }
   .success-icon { font-size: 3rem; margin-bottom: 12px; }
 
-  .success-screen h2 {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 8px;
-    color: var(--green);
-  }
-
+  .success-screen h2 { font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; color: var(--green); }
   .success-screen p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
 
   .another-btn {
@@ -493,13 +428,25 @@
 
   .error-msg.visible { display: block; }
 
-  footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.7rem;
+  footer { text-align: center; padding: 20px; font-size: 0.7rem; color: var(--muted); margin-top: 10px; }
+
+  .refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    font-size: 0.72rem;
     color: var(--muted);
-    margin-top: 10px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
   }
+
+  .refresh-btn:hover { border-color: var(--dark); color: var(--dark); }
 </style>
 </head>
 <body>
@@ -511,28 +458,28 @@
 
 <div class="container">
 
-  <!-- Stats -->
   <div class="stats">
     <div class="stat-card available">
       <div class="num" id="availableCount">—</div>
-      <div class="label">Reserved Free</div>
+      <div class="label">Available</div>
     </div>
     <div class="stat-card occupied">
       <div class="num" id="occupiedCount">—</div>
-      <div class="label">Reserved Taken</div>
+      <div class="label">Occupied</div>
     </div>
     <div class="stat-card total">
-      <div class="num">81</div>
-      <div class="label">Total Seats</div>
+      <div class="num">50</div>
+      <div class="label">Reserved Total</div>
     </div>
   </div>
 
-  <!-- Legend -->
   <div class="legend">
     <div class="legend-item"><div class="dot green"></div> Available</div>
     <div class="legend-item"><div class="dot red"></div> Occupied</div>
     <div class="legend-item"><div class="dot dark"></div> Your Selection</div>
   </div>
+
+  <button class="refresh-btn" onclick="fetchSeats()">🔄 Refresh Availability</button>
 
   <!-- Reserved Seats -->
   <div class="seat-section">
@@ -542,11 +489,11 @@
     </div>
     <div class="seat-price">₹1200/month &nbsp;•&nbsp; ₹3300/3 months &nbsp;•&nbsp; ₹6000/6 months &nbsp;•&nbsp; +₹100 laptop</div>
     <div class="seats-grid" id="reservedGrid">
-      <div class="loading"><div class="spinner"></div>Loading seats...</div>
+      <div class="loading"><div class="spinner"></div>Loading live seats...</div>
     </div>
   </div>
 
-  <!-- Unreserved Section -->
+  <!-- Unreserved -->
   <div class="unreserved-card">
     <div class="title">
       Unreserved Seats (51–81)
@@ -571,18 +518,17 @@
         <div class="shift-price">₹1000/mo</div>
       </div>
     </div>
-
     <button class="apply-btn" onclick="applyUnreserved()">Apply for Unreserved Seat →</button>
   </div>
 
-  <!-- Booking Form (shared for both) -->
+  <!-- Booking Form -->
   <div class="booking-form" id="bookingForm">
     <div class="form-title">📋 Booking Request</div>
     <p style="font-size:0.78rem;color:var(--muted)">Fill details — confirmation & payment at hall only.</p>
 
     <div class="selected-info">
       <div>
-        <div style="font-size:0.68rem;opacity:0.7" id="bookingTypeLabel">Seat Type</div>
+        <div style="font-size:0.68rem;opacity:0.7" id="bookingTypeLabel">Type</div>
         <strong id="selectedDisplay">—</strong>
       </div>
       <button onclick="clearBooking()" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:0.75rem;cursor:pointer;">Change</button>
@@ -635,7 +581,7 @@
     <p class="whatsapp-note">Opens WhatsApp to send your request to admin. Confirmation & payment at hall only.</p>
   </div>
 
-  <!-- Success Screen -->
+  <!-- Success -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon">✅</div>
     <h2>Request Sent!</h2>
@@ -677,7 +623,7 @@
   let occupiedSeats = new Set();
   let selectedSeat = null;
   let selectedShift = null;
-  let bookingType = null; // 'reserved' or 'unreserved'
+  let bookingType = null;
 
   window.onload = () => {
     const today = new Date().toISOString().split('T')[0];
@@ -687,35 +633,33 @@
   };
 
   async function fetchSeats() {
+    document.getElementById('reservedGrid').innerHTML = '<div class="loading"><div class="spinner"></div>Loading live seats...</div>';
     try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=reserved%20seats`;
+      // Read from "Seat no." tab — Column A = Seat No, Column E = Status
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Seat%20no.&range=A:E`;
       const res = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.substring(47).slice(0, -2));
       const rows = json.table.rows;
-      const today = new Date(); today.setHours(0,0,0,0);
 
       occupiedSeats = new Set();
-      rows.forEach(row => {
-        if (!row.c || !row.c[0]) return;
-        const seatNum = parseInt(row.c[0]?.v);
-        if (!seatNum || isNaN(seatNum)) return;
 
-        let endDate = null;
-        if (row.c[2]?.v) {
-          const dv = row.c[2].v;
-          if (typeof dv === 'string' && dv.startsWith('Date(')) {
-            const p = dv.replace('Date(','').replace(')','').split(',');
-            endDate = new Date(parseInt(p[0]), parseInt(p[1]), parseInt(p[2]));
-          } else if (row.c[2].f) {
-            endDate = new Date(row.c[2].f);
-          }
+      rows.forEach(row => {
+        if (!row.c || !row.c[0]?.v) return;
+        const seatNum = parseInt(row.c[0].v);
+        if (isNaN(seatNum) || seatNum < 1 || seatNum > 50) return;
+
+        const status = (row.c[4]?.v || '').toString().toLowerCase().trim();
+        // Active or Expiring Soon = occupied
+        if (status === 'active' || status === 'expiring soon') {
+          occupiedSeats.add(seatNum);
         }
-        if (endDate && endDate < today) return;
-        if (seatNum >= 1 && seatNum <= 50) occupiedSeats.add(seatNum);
       });
+
       renderSeats();
     } catch(e) {
+      console.error('Fetch error:', e);
+      // Show all as available if fetch fails
       renderSeats();
     }
   }
@@ -724,15 +668,16 @@
     const grid = document.getElementById('reservedGrid');
     grid.innerHTML = '';
     for (let i = 1; i <= 50; i++) {
-      const btn = document.createElement('div');
       const isOccupied = occupiedSeats.has(i);
+      const btn = document.createElement('div');
       btn.className = 'seat ' + (isOccupied ? 'occupied' : 'available');
       btn.textContent = i;
       btn.dataset.seat = i;
       if (!isOccupied) btn.onclick = () => selectReservedSeat(i);
       grid.appendChild(btn);
     }
-    document.getElementById('availableCount').textContent = 50 - occupiedSeats.size;
+    const available = 50 - occupiedSeats.size;
+    document.getElementById('availableCount').textContent = available;
     document.getElementById('occupiedCount').textContent = occupiedSeats.size;
   }
 
@@ -743,16 +688,13 @@
     selectedSeat = num;
     selectedShift = null;
     bookingType = 'reserved';
-    document.querySelector(`[data-seat="${num}"]`).classList.replace('available','selected');
-
-    document.getElementById('bookingTypeLabel').textContent = 'Reserved Seat';
+    document.querySelector(`[data-seat="${num}"]`).classList.replace('available', 'selected');
+    document.getElementById('bookingTypeLabel').textContent = 'Reserved Seat — Private';
     document.getElementById('selectedDisplay').textContent = `Seat No. ${num}`;
     document.getElementById('opt3').disabled = false; document.getElementById('opt3').style.display = '';
     document.getElementById('opt6').disabled = false; document.getElementById('opt6').style.display = '';
     document.getElementById('duration').value = '1';
-
-    showForm();
-    updateFee();
+    showForm(); updateFee();
   }
 
   function selectShift(shift) {
@@ -765,18 +707,13 @@
     if (!selectedShift) { alert('Please select a shift first!'); return; }
     selectedSeat = null;
     bookingType = 'unreserved';
-    document.querySelectorAll('.seat.selected').forEach(s => {
-      s.classList.remove('selected'); s.classList.add('available');
-    });
-
+    document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
     document.getElementById('bookingTypeLabel').textContent = 'Unreserved Seat';
     document.getElementById('selectedDisplay').textContent = SHIFT_LABELS[selectedShift];
     document.getElementById('opt3').disabled = true; document.getElementById('opt3').style.display = 'none';
     document.getElementById('opt6').disabled = true; document.getElementById('opt6').style.display = 'none';
     document.getElementById('duration').value = '1';
-
-    showForm();
-    updateFee();
+    showForm(); updateFee();
   }
 
   function showForm() {
@@ -786,9 +723,7 @@
   }
 
   function clearBooking() {
-    document.querySelectorAll('.seat.selected').forEach(s => {
-      s.classList.remove('selected'); s.classList.add('available');
-    });
+    document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
     selectedSeat = null; bookingType = null;
     document.getElementById('bookingForm').classList.remove('visible');
   }
@@ -797,19 +732,11 @@
     if (!bookingType) return;
     const months = parseInt(document.getElementById('duration').value);
     const hasLaptop = document.getElementById('laptop').value === 'yes';
-
-    let seatFee = 0;
-    if (bookingType === 'reserved') {
-      seatFee = RESERVED_PRICES[months];
-    } else {
-      seatFee = SHIFT_PRICES[selectedShift] * months;
-    }
+    const seatFee = bookingType === 'reserved' ? RESERVED_PRICES[months] : SHIFT_PRICES[selectedShift] * months;
     const laptopFee = hasLaptop ? 100 * months : 0;
-    const total = seatFee + laptopFee;
-
     document.getElementById('seatFeeDisplay').textContent = `₹${seatFee}`;
     document.getElementById('laptopFeeDisplay').textContent = `₹${laptopFee}`;
-    document.getElementById('totalFeeDisplay').textContent = `₹${total}`;
+    document.getElementById('totalFeeDisplay').textContent = `₹${seatFee + laptopFee}`;
   }
 
   function submitBooking() {
@@ -820,7 +747,6 @@
     const hasLaptop = document.getElementById('laptop').value === 'yes';
 
     document.getElementById('errorMsg').classList.remove('visible');
-
     if (!name) { showError('Please enter your full name.'); return; }
     if (!/^[0-9]{10}$/.test(mobile)) { showError('Please enter a valid 10-digit mobile number.'); return; }
     if (!startDate) { showError('Please select a start date.'); return; }
@@ -830,12 +756,9 @@
     const laptopFee = hasLaptop ? 100 * parseInt(months) : 0;
     const total = seatFee + laptopFee;
 
-    let seatInfo = '';
-    if (bookingType === 'reserved') {
-      seatInfo = `🪑 Seat No: ${selectedSeat} (Reserved — Private Seat)\n⏳ Duration: ${months} Month${months > 1 ? 's' : ''}`;
-    } else {
-      seatInfo = `🪑 Seat Type: Unreserved\n⏰ Shift: ${SHIFT_LABELS[selectedShift]}\n⏳ Duration: 1 Month`;
-    }
+    const seatInfo = bookingType === 'reserved'
+      ? `🪑 Seat No: ${selectedSeat} (Reserved — Private)\n⏳ Duration: ${months} Month${months > 1 ? 's' : ''}`
+      : `🪑 Type: Unreserved\n⏰ Shift: ${SHIFT_LABELS[selectedShift]}\n⏳ Duration: 1 Month`;
 
     const message =
 `🎓 *SEAT BOOKING REQUEST*
