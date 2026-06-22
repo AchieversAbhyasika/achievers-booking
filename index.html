@@ -198,7 +198,6 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Unreserved */
   .unreserved-card {
     background: white;
     border-radius: 14px;
@@ -217,35 +216,6 @@
     gap: 8px;
   }
 
-  .shift-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin: 14px 0;
-  }
-
-  .shift-card {
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .shift-card:hover { border-color: var(--dark); }
-
-  .shift-card.selected {
-    border-color: var(--dark);
-    background: var(--dark);
-    color: white;
-  }
-
-  .shift-card .shift-name { font-family: 'Baloo 2', cursive; font-size: 0.85rem; font-weight: 800; margin-bottom: 2px; }
-  .shift-card .shift-time { font-size: 0.6rem; opacity: 0.7; margin-bottom: 4px; }
-  .shift-card .shift-price { font-size: 0.78rem; font-weight: 700; color: var(--green); }
-  .shift-card.selected .shift-price { color: #81C784; }
-
   .apply-btn {
     width: 100%;
     padding: 13px;
@@ -262,7 +232,6 @@
 
   .apply-btn:hover { background: #2d2d4e; }
 
-  /* Form */
   .booking-form {
     background: white;
     border-radius: 14px;
@@ -363,7 +332,6 @@
   }
 
   .submit-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
-
   .whatsapp-note { text-align: center; font-size: 0.7rem; color: var(--muted); margin-top: 10px; }
 
   .rules {
@@ -399,7 +367,6 @@
 
   .success-screen.visible { display: block; }
   .success-icon { font-size: 3rem; margin-bottom: 12px; }
-
   .success-screen h2 { font-family: 'Baloo 2', cursive; font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; color: var(--green); }
   .success-screen p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
 
@@ -481,26 +448,23 @@
 
   <button class="refresh-btn" onclick="fetchSeats()">🔄 Refresh Availability</button>
 
-  <!-- Reserved Seats -->
   <div class="seat-section">
     <div class="seat-section-title">
       Reserved Seats (1–50)
       <span class="badge reserved">Your Private Seat</span>
     </div>
-    <div class="seat-price">₹1200/month &nbsp;•&nbsp; ₹3300/3 months &nbsp;•&nbsp; ₹6000/6 months &nbsp;•&nbsp; +₹100 laptop</div>
+    <div class="seat-price">₹1200/month • ₹3300/3 months • ₹6000/6 months • +₹100 laptop</div>
     <div class="seats-grid" id="reservedGrid">
       <div class="loading"><div class="spinner"></div>Loading live seats...</div>
     </div>
   </div>
 
-  <!-- Unreserved -->
   <div class="unreserved-card">
     <div class="title">
       Unreserved Seats (51–81)
       <span class="badge unreserved">First Come First Serve</span>
     </div>
-    <div class="seat-price" style="margin-top:4px">Sit anywhere in unreserved area during your shift</div>
-
+    <div class="seat-price" style="margin-top:4px">Sit anywhere in unreserved area</div>
     <div style="background:#F8F9FA;border-radius:12px;padding:14px;margin:14px 0;text-align:center;border:2px solid #E5E7EB;">
       <div style="font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;">☀️ Full Day</div>
       <div style="font-size:0.75rem;color:var(--muted);margin:4px 0">6:30 AM – 11:00 PM</div>
@@ -510,7 +474,6 @@
     <button class="apply-btn" onclick="applyUnreserved()">Apply for Unreserved Seat →</button>
   </div>
 
-  <!-- Booking Form -->
   <div class="booking-form" id="bookingForm">
     <div class="form-title">📋 Booking Request</div>
     <p style="font-size:0.78rem;color:var(--muted)">Fill details — confirmation & payment at hall only.</p>
@@ -538,7 +501,7 @@
       <input type="date" id="startDate" />
     </div>
 
-    <div class="form-group" id="durationGroup">
+    <div class="form-group">
       <label>Duration</label>
       <select id="duration" onchange="updateFee()">
         <option value="1">1 Month</option>
@@ -556,7 +519,7 @@
     </div>
 
     <div class="fee-summary">
-      <div class="fee-row"><span>Seat / Shift Fee</span><span id="seatFeeDisplay">₹0</span></div>
+      <div class="fee-row"><span>Seat Fee</span><span id="seatFeeDisplay">₹0</span></div>
       <div class="fee-row"><span>Laptop Fee</span><span id="laptopFeeDisplay">₹0</span></div>
       <div class="fee-row total"><span>Total to Pay at Hall</span><span id="totalFeeDisplay">₹0</span></div>
     </div>
@@ -570,7 +533,6 @@
     <p class="whatsapp-note">Opens WhatsApp to send your request to admin. Confirmation & payment at hall only.</p>
   </div>
 
-  <!-- Success -->
   <div class="success-screen" id="successScreen">
     <div class="success-icon">✅</div>
     <h2>Request Sent!</h2>
@@ -580,33 +542,25 @@
     <button class="another-btn" onclick="resetAll()">← Back to Seats</button>
   </div>
 
-  <!-- Rules -->
   <div class="rules">
     <h3>📌 Important Rules / महत्वाचे नियम</h3>
     <ul>
       <li>Reserved seat is your private seat — keep your books safely.<br>
-      <span style="color:#9CA3AF;font-size:0.73rem">राखीव जागा तुमची खाजगी जागा आहे — पुस्तके सुरक्षित ठेवा.</span></li>
-
+      <span style="color:#9CA3AF;font-size:0.73rem">राखीव जागा तमची खाजगी जागा आहे — पुस्तके सुरक्षित ठेवा.</span></li>
       <li>Unreserved seats are on First Come, First Serve basis.<br>
-      <span style="color:#9CA3AF;font-size:0.73rem">अनारक्षित जागा "प्रथम येणाऱ्यास प्रथम सेवा" या तत्त्वावर दिल्या जातात.</span></li>
-
+      <span style="color:#9CA3AF;font-size:0.73rem">अनारक्षित जागा "प्रथम येणाऱ्यास प्रथम सेव" या तत्त्वावर दिल जातात.</span></li>
       <li>Do not reserve unreserved seats with personal belongings.<br>
-      <span style="color:#9CA3AF;font-size:0.73rem">स्वतःच्या सामानाने अनारक्षित जागा अडवू नये.</span></li>
-
+      <span style="color:#9CA3AF;font-size:0.73rem">स्वतःच सामानाने अनारक्षित जागा अडव नये.</span></li>
       <li>Seat vacant for more than 30 minutes may be given to another student.<br>
-      <span style="color:#9CA3AF;font-size:0.73rem">३० मिनिटांपेक्षा जास्त वेळ रिकामी राहिलेली जागा दुसऱ्या विद्यार्थ्यास दिली जाईल.</span></li>
-
+      <span style="color:#9CA3AF;font-size:0.73rem">३० मिनिटांपेक्षा जास्त वेळ रिकामी राहिलेली जागा दुसऱ्या विद्यार्थस दिली जाईल.</span></li>
       <li>Renew your seat at least 5 days before expiry.<br>
       <span style="color:#9CA3AF;font-size:0.73rem">मुदत संपण्याच्या किमान ५ दिवस आधी नूतनीकरण करणे अनिवार्य आहे.</span></li>
-
       <li>Late renewal: ₹100 extra charge per 5 days after expiry.<br>
-      <span style="color:#9CA3AF;font-size:0.73rem">विलंब शुल्क: मुदत संपल्यानंतर प्रत्येक ५ दिवसांसाठी ₹१०० अतिरिक्त आकारले जाईल.</span></li>
-
+      <span style="color:#9CA3AF;font-size:0.73rem">विलंब शुल्क: मदत संपल्यानंतर प्रत्येक ५ दिवसांसाठी ₹१०० अतिरिक्त आकारले जाईल.</span></li>
       <li>Shelf storage facility only for reserved seat holders.<br>
       <span style="color:#9CA3AF;font-size:0.73rem">शेल्फ स्टोरेज सुविधा फक्त राखीव जागाधारकांसाठी आहे.</span></li>
-
       <li>Unreserved seat holders must carry their belongings when leaving the hall.<br>
-      <span style="color:#9CA3AF;font-size:0.73rem">अनारक्षित जागाधारकांनी हॉल सोडताना स्वतःचे साहित्य सोबत घेऊन जाणे आवश्यक आहे.</span></li>
+      <span style="color:#9CA3AF;font-size:0.73rem">अनारक्षित जागाधारकांनी हल सोडताना स्वतःचे साहित्य सोबत घेऊन जाणे आवश्यक आहे.</span></li>
     </ul>
   </div>
 
@@ -614,15 +568,9 @@
 </div>
 
 <script>
-  const SHEET_ID = '1-mk38L_MZgVc9UbnjljnEF80NiL2TIhapn1Mu6NzUXk';
   const ADMIN_WA = '917083322440';
   const RESERVED_PRICES = { 1: 1200, 3: 3300, 6: 6000 };
-  const SHIFT_PRICES = { morning: 850, evening: 850, fullday: 1000 };
-  const SHIFT_LABELS = {
-    morning: '🌅 Morning (6:30 AM – 2:00 PM)',
-    evening: '🌆 Evening (2:00 PM – 10:00 PM)',
-    fullday: '☀️ Full Day (6:30 AM – 11:00 PM)'
-  };
+  const SHIFT_LABELS = { fullday: '☀️ Full Day (6:30 AM – 11:00 PM)' };
 
   let occupiedSeats = new Set();
   let selectedSeat = null;
@@ -642,7 +590,6 @@
       const url = 'https://script.google.com/macros/s/AKfycbxebJnHw2lDFVH6gnDJyL6YtTAPr1RouYAFxYSOgPtfgtd4Ty6sPt_26M03FN43wOPqxA/exec';
       const res = await fetch(url);
       const json = await res.json();
-
       occupiedSeats = new Set();
       json.seats.forEach(item => {
         const status = item.status.toLowerCase().trim();
@@ -650,7 +597,6 @@
           occupiedSeats.add(item.seat);
         }
       });
-
       renderSeats();
     } catch(e) {
       console.error('Fetch error:', e);
@@ -670,15 +616,12 @@
       if (!isOccupied) btn.onclick = () => selectReservedSeat(i);
       grid.appendChild(btn);
     }
-    const available = 50 - occupiedSeats.size;
-    document.getElementById('availableCount').textContent = available;
+    document.getElementById('availableCount').textContent = 50 - occupiedSeats.size;
     document.getElementById('occupiedCount').textContent = occupiedSeats.size;
   }
 
   function selectReservedSeat(num) {
-    document.querySelectorAll('.seat.selected').forEach(s => {
-      s.classList.remove('selected'); s.classList.add('available');
-    });
+    document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
     selectedSeat = num;
     selectedShift = null;
     bookingType = 'reserved';
@@ -691,19 +634,13 @@
     showForm(); updateFee();
   }
 
-  function selectShift(shift) {
-    selectedShift = shift;
-    document.querySelectorAll('.shift-card').forEach(c => c.classList.remove('selected'));
-    document.getElementById(`shift-${shift}`).classList.add('selected');
-  }
-
   function applyUnreserved() {
     selectedShift = 'fullday';
     selectedSeat = null;
     bookingType = 'unreserved';
     document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
     document.getElementById('bookingTypeLabel').textContent = 'Unreserved Seat';
-    document.getElementById('selectedDisplay').textContent = SHIFT_LABELS[selectedShift];
+    document.getElementById('selectedDisplay').textContent = SHIFT_LABELS['fullday'];
     document.getElementById('opt3').disabled = true; document.getElementById('opt3').style.display = 'none';
     document.getElementById('opt6').disabled = true; document.getElementById('opt6').style.display = 'none';
     document.getElementById('duration').value = '1';
@@ -726,7 +663,7 @@
     if (!bookingType) return;
     const months = parseInt(document.getElementById('duration').value);
     const hasLaptop = document.getElementById('laptop').value === 'yes';
-    const seatFee = bookingType === 'reserved' ? RESERVED_PRICES[months] : SHIFT_PRICES[selectedShift] * months;
+    const seatFee = bookingType === 'reserved' ? RESERVED_PRICES[months] : 1000;
     const laptopFee = hasLaptop ? 100 * months : 0;
     document.getElementById('seatFeeDisplay').textContent = `₹${seatFee}`;
     document.getElementById('laptopFeeDisplay').textContent = `₹${laptopFee}`;
@@ -746,13 +683,13 @@
     if (!startDate) { showError('Please select a start date.'); return; }
 
     const formattedDate = new Date(startDate).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-    const seatFee = bookingType === 'reserved' ? RESERVED_PRICES[parseInt(months)] : SHIFT_PRICES[selectedShift] * parseInt(months);
+    const seatFee = bookingType === 'reserved' ? RESERVED_PRICES[parseInt(months)] : 1000;
     const laptopFee = hasLaptop ? 100 * parseInt(months) : 0;
     const total = seatFee + laptopFee;
 
     const seatInfo = bookingType === 'reserved'
       ? `🪑 Seat No: ${selectedSeat} (Reserved — Private)\n⏳ Duration: ${months} Month${months > 1 ? 's' : ''}`
-      : `🪑 Type: Unreserved\n⏰ Shift: ${SHIFT_LABELS[selectedShift]}\n⏳ Duration: 1 Month`;
+      : `🪑 Type: Unreserved (Full Day)\n⏳ Duration: 1 Month`;
 
     const message =
 `🎓 *SEAT BOOKING REQUEST*
@@ -790,7 +727,6 @@ _Confirmation & payment at hall._`;
     document.getElementById('successScreen').classList.remove('visible');
     document.getElementById('bookingForm').classList.remove('visible');
     document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
-    document.querySelectorAll('.shift-card').forEach(c => c.classList.remove('selected'));
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('startDate').value = today;
     window.scrollTo({ top: 0, behavior: 'smooth' });
