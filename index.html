@@ -639,31 +639,21 @@
   async function fetchSeats() {
     document.getElementById('reservedGrid').innerHTML = '<div class="loading"><div class="spinner"></div>Loading live seats...</div>';
     try {
-      // Read from "Seat no." tab — Column A = Seat No, Column E = Status
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Seat%20no.&range=A:E`;
+      const url = 'https://script.google.com/macros/s/AKfycbxebJnHw2lDFVH6gnDJyL6YtTAPr1RouYAFxYSOgPtfgtd4Ty6sPt_26M03FN43wOPqxA/exec';
       const res = await fetch(url);
-      const text = await res.text();
-      const json = JSON.parse(text.substring(47).slice(0, -2));
-      const rows = json.table.rows;
+      const json = await res.json();
 
       occupiedSeats = new Set();
-
-      rows.forEach(row => {
-        if (!row.c || !row.c[0]?.v) return;
-        const seatNum = parseInt(row.c[0].v);
-        if (isNaN(seatNum) || seatNum < 1 || seatNum > 50) return;
-
-        const status = (row.c[4]?.v || '').toString().toLowerCase().trim();
-        // Active, Expiring Soon, Ends Today = occupied
+      json.seats.forEach(item => {
+        const status = item.status.toLowerCase().trim();
         if (status === 'active' || status === 'expiring soon' || status === 'ends today') {
-          occupiedSeats.add(seatNum);
+          occupiedSeats.add(item.seat);
         }
       });
 
       renderSeats();
     } catch(e) {
       console.error('Fetch error:', e);
-      // Show all as available if fetch fails
       renderSeats();
     }
   }
