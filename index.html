@@ -453,7 +453,7 @@
 
 <header>
   <h1>🎓 Achievers Study Hall</h1>
-  <p>53/1B, Vinayak Nagar, New Sangavi, Pune • 6:30 AM – 10:00 PM</p>
+  <p>53/1B, Vinayak Nagar, New Sangavi, Pune • 6:30 AM – 11:00 PM</p>
 </header>
 
 <div class="container">
@@ -501,22 +501,11 @@
     </div>
     <div class="seat-price" style="margin-top:4px">Sit anywhere in unreserved area during your shift</div>
 
-    <div class="shift-cards">
-      <div class="shift-card" id="shift-morning" onclick="selectShift('morning')">
-        <div class="shift-name">🌅 Morning</div>
-        <div class="shift-time">6:30 AM – 2:00 PM</div>
-        <div class="shift-price">₹850/mo</div>
-      </div>
-      <div class="shift-card" id="shift-evening" onclick="selectShift('evening')">
-        <div class="shift-name">🌆 Evening</div>
-        <div class="shift-time">2:00 PM – 10:00 PM</div>
-        <div class="shift-price">₹850/mo</div>
-      </div>
-      <div class="shift-card" id="shift-fullday" onclick="selectShift('fullday')">
-        <div class="shift-name">☀️ Full Day</div>
-        <div class="shift-time">6:30 AM – 10:00 PM</div>
-        <div class="shift-price">₹1000/mo</div>
-      </div>
+    <div style="background:#F8F9FA;border-radius:12px;padding:14px;margin:14px 0;text-align:center;border:2px solid #E5E7EB;">
+      <div style="font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;">☀️ Full Day</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin:4px 0">6:30 AM – 11:00 PM</div>
+      <div style="font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;color:var(--green)">₹1000/month</div>
+      <div style="font-size:0.7rem;color:var(--muted);margin-top:4px">+₹100/month for laptop</div>
     </div>
     <button class="apply-btn" onclick="applyUnreserved()">Apply for Unreserved Seat →</button>
   </div>
@@ -593,20 +582,35 @@
 
   <!-- Rules -->
   <div class="rules">
-    <h3>📌 Important Rules</h3>
+    <h3>📌 Important Rules / महत्वाचे नियम</h3>
     <ul>
-      <li>Reserved seat is your private seat — keep your books safely.</li>
-      <li>Unreserved seats are on First Come, First Serve basis within your shift.</li>
-      <li>Do not reserve unreserved seats with personal belongings.</li>
-      <li>Seat vacant for more than 30 minutes may be given to another student.</li>
-      <li>Renew your seat at least 5 days before expiry.</li>
-      <li>Late renewal: ₹100 extra charge per 5 days after expiry.</li>
-      <li>Shelf storage facility only for reserved seat holders.</li>
-      <li>Carry your belongings when leaving the hall.</li>
+      <li>Reserved seat is your private seat — keep your books safely.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">राखीव जागा तुमची खाजगी जागा आहे — पुस्तके सुरक्षित ठेवा.</span></li>
+
+      <li>Unreserved seats are on First Come, First Serve basis.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">अनारक्षित जागा "प्रथम येणाऱ्यास प्रथम सेवा" या तत्त्वावर दिल्या जातात.</span></li>
+
+      <li>Do not reserve unreserved seats with personal belongings.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">स्वतःच्या सामानाने अनारक्षित जागा अडवू नये.</span></li>
+
+      <li>Seat vacant for more than 30 minutes may be given to another student.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">३० मिनिटांपेक्षा जास्त वेळ रिकामी राहिलेली जागा दुसऱ्या विद्यार्थ्यास दिली जाईल.</span></li>
+
+      <li>Renew your seat at least 5 days before expiry.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">मुदत संपण्याच्या किमान ५ दिवस आधी नूतनीकरण करणे अनिवार्य आहे.</span></li>
+
+      <li>Late renewal: ₹100 extra charge per 5 days after expiry.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">विलंब शुल्क: मुदत संपल्यानंतर प्रत्येक ५ दिवसांसाठी ₹१०० अतिरिक्त आकारले जाईल.</span></li>
+
+      <li>Shelf storage facility only for reserved seat holders.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">शेल्फ स्टोरेज सुविधा फक्त राखीव जागाधारकांसाठी आहे.</span></li>
+
+      <li>Unreserved seat holders must carry their belongings when leaving the hall.<br>
+      <span style="color:#9CA3AF;font-size:0.73rem">अनारक्षित जागाधारकांनी हॉल सोडताना स्वतःचे साहित्य सोबत घेऊन जाणे आवश्यक आहे.</span></li>
     </ul>
   </div>
 
-  <footer>Achievers Study Hall • New Sangavi, Pune • +91 70833 22440</footer>
+  <footer>Achievers Study Hall • New Sangavi, Pune • +91 70833 22440 • 6:30 AM – 11:00 PM</footer>
 </div>
 
 <script>
@@ -617,7 +621,7 @@
   const SHIFT_LABELS = {
     morning: '🌅 Morning (6:30 AM – 2:00 PM)',
     evening: '🌆 Evening (2:00 PM – 10:00 PM)',
-    fullday: '☀️ Full Day (6:30 AM – 10:00 PM)'
+    fullday: '☀️ Full Day (6:30 AM – 11:00 PM)'
   };
 
   let occupiedSeats = new Set();
@@ -650,8 +654,8 @@
         if (isNaN(seatNum) || seatNum < 1 || seatNum > 50) return;
 
         const status = (row.c[4]?.v || '').toString().toLowerCase().trim();
-        // Active or Expiring Soon = occupied
-        if (status === 'active' || status === 'expiring soon') {
+        // Active, Expiring Soon, Ends Today = occupied
+        if (status === 'active' || status === 'expiring soon' || status === 'ends today') {
           occupiedSeats.add(seatNum);
         }
       });
@@ -704,7 +708,7 @@
   }
 
   function applyUnreserved() {
-    if (!selectedShift) { alert('Please select a shift first!'); return; }
+    selectedShift = 'fullday';
     selectedSeat = null;
     bookingType = 'unreserved';
     document.querySelectorAll('.seat.selected').forEach(s => { s.classList.remove('selected'); s.classList.add('available'); });
